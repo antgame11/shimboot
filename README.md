@@ -69,7 +69,7 @@ Driver support depends on the device you are using shimboot on. The `patch_rootf
 | [`corsola`](https://cros.download/recovery/corsola) | yes               | yes               | no       | yes       | yes         | yes<sup>[5]</sup> | yes       | yes      |
 | [`hatch`](https://cros.download/recovery/hatch)     | yes               | yes<sup>[2]</sup> | no       | yes       | yes         | yes               | yes       | yes      |
 | [`snappy`](https://cros.download/recovery/snappy)   | yes               | yes               | yes      | yes       | yes         | yes               | yes       | yes      |
-| [`hana`](https://cros.download/recovery/hana)       | yes               | yes               | no       | yes       | untested    | yes               | yes       | no       |
+| [`hana`](https://cros.download/recovery/hana)       | yes<sup>[5]</sup> | yes               | no       | yes       | untested    | yes               | yes       | no       |
 | [`brya`](https://cros.download/recovery/brya)       | yes               | yes               | no       | yes       | untested    | yes               | yes       | yes      |
 | [`trogdor`](https://cros.download/recovery/trogdor) | yes               | no                | no       | yes       | untested    | yes               | untested  | untested |
 
@@ -144,6 +144,7 @@ Note: If you are building for an ARM Chromebook, you need the `qemu-user-static`
 5. Boot into Debian and log in with the username and password that you configured earlier. The default username/password for the prebuilt images is `user/user`.
 6. Expand the rootfs partition so that it fills up the entire disk by running `sudo expand_rootfs`.
 7. Change your own password by running `passwd user`. The root user is disabled by default.
+8. Set up locales by running `sudo dpkg-reconfigure locales`
 
 ## FAQ:
 

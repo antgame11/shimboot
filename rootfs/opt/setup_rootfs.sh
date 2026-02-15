@@ -43,7 +43,8 @@ fi
 
 
 #install certs to prevent apt ssl errors
-apt-get install -y ca-certificates
+#also install locales
+apt-get install -y ca-certificates locales
 apt-get update
 
 #fix apt repos for ubuntu
