@@ -70,6 +70,7 @@ Driver support depends on the device you are using shimboot on. The `patch_rootf
 | [`hatch`](https://cros.download/recovery/hatch)     | yes               | yes<sup>[2]</sup> | no       | yes       | yes         | yes               | yes       | yes      |
 | [`snappy`](https://cros.download/recovery/snappy)   | yes               | yes               | yes      | yes       | yes         | yes               | yes       | yes      |
 | [`hana`](https://cros.download/recovery/hana)       | yes               | yes               | no       | yes       | untested    | yes               | yes       | no       |
+| [`brya`](https://cros.download/recovery/brya)       | yes               | yes               | no       | yes       | untested    | yes               | yes       | yes      |
 
 <sup>1. The kernel is too old.</sup><br>
 <sup>2. 5ghz wifi networks do not work, but 2.4ghz networks do.</sup><br>
