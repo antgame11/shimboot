@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ ! -x "./common.sh" ]; then
+  echo "error: other shell scripts are not executable. please clone this repository with the git command instead of downloading the .zip archive from the github website."
+  exit 1
+fi
+
 . ./common.sh
 . ./image_utils.sh
 
