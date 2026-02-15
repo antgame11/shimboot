@@ -1,0 +1,11 @@
+[Unit]
+Description=Set up cros-keyboard-map during boot
+Before=keyd.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -c 'mkdir -p /tmp/keyd; python3 /opt/cros-keyboard-map/cros-keyboard-map.py -f /tmp/keyd/cros.conf -i'
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target

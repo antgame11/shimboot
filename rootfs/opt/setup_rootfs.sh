@@ -75,6 +75,7 @@ apt-get upgrade -y --allow-downgrades
 installed_systemd="$(dpkg-query -W -f='${binary:Package}\n' | grep "systemd")"
 apt-get clean
 apt-get install -y --reinstall --allow-downgrades $installed_systemd
+apt-get install -y systemd-resolved systemd-timesyncd
 
 #enable shimboot services
 systemctl enable kill-frecon.service
@@ -92,6 +93,19 @@ if [ ! "$disable_base_pkgs" ]; then
     apt-file update
   else #old versions of command-not-found did not use apt-file
     apt-get update
+  fi
+
+  #install keyd and the cros keyboard map if supported
+  if apt-cache show keyd 2>/dev/null; then
+    apt-get install -y keyd git python3-minimal python3-libfdt
+    git clone "https://github.com/WeirdTreeThing/cros-keyboard-map" /opt/cros-keyboard-map
+    
+    mkdir -p /etc/libinput/
+    cat /opt/cros-keyboard-map/local-overrides.quirks >> /etc/libinput/local-overrides.quirks
+    mkdir -p /etc/keyd
+    ln -s /tmp/keyd/cros.conf /etc/keyd/cros.conf
+
+    systemctl enable cros-kbmap.service keyd
   fi
 fi
 
