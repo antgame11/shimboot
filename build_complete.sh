@@ -76,7 +76,13 @@ if [ "$(check_deps "$needed_deps")" ]; then
   #install deps automatically on debian and ubuntu
   if [ -f "/etc/debian_version" ]; then
     print_title "attempting to install build deps"
-    apt-get install wget python3 unzip zip debootstrap cpio binwalk pcregrep cgpt kmod pv lz4 cryptsetup -y
+    apt-get install wget python3 unzip zip debootstrap cpio binwalk cgpt kmod pv lz4 cryptsetup -y
+    if apt-cache show pcre2-utils 2>/dev/null; then
+      apt-get install pcre2-utils -y
+    else
+      apt-get install pcregrep -y
+    fi
+    create_aliases
   fi
   assert_deps "$needed_deps"
 fi
