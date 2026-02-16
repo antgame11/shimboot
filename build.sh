@@ -32,7 +32,7 @@ base_dir="$(realpath -m  $(dirname "$0"))"
 
 quiet="${args['quiet']}"
 arch="${args['arch']-amd64}"
-bootloader_part_name="${args['name']}"
+bootloader_part_name="${args['name']-default}"
 luks_enabled="${args['luks']}"
 
 if [ "$luks_enabled" ]; then

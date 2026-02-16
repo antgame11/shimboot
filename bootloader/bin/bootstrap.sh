@@ -296,10 +296,10 @@ boot_target() {
   mkdir /newroot
   #use cryptsetup to check if the rootfs is encrypted
   if [ -x "$(command -v cryptsetup)" ] && cryptsetup luksDump "$target" >/dev/null 2>&1; then
-    cryptsetup open "$target" rootfs
-    mount /dev/mapper/rootfs /newroot
+    cryptsetup open --allow-discards "$target" rootfs
+    mount -o discard,noatime /dev/mapper/rootfs /newroot
   else
-    mount "$target" /newroot
+    mount -o discard,noatime "$target" /newroot
   fi
   #bind mount /dev/console to show systemd boot msgs
   if [ -f "/bin/frecon-lite" ]; then 

@@ -96,9 +96,9 @@ create_partitions() {
   if [ "$is_luks" ]; then
     echo "$crypt_password" | cryptsetup luksFormat "${image_loop}p4"
     echo "$crypt_password" | cryptsetup luksOpen "${image_loop}p4" rootfs
-    mkfs.ext4 /dev/mapper/rootfs
+    mkfs.ext4 -E lazy_itable_init=0,lazy_journal_init=0 /dev/mapper/rootfs
   else 
-    mkfs.ext4 "${image_loop}p4"
+    mkfs.ext4 -E lazy_itable_init=0,lazy_journal_init=0 "${image_loop}p4"
   fi
 }
 
