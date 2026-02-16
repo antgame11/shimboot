@@ -117,20 +117,20 @@ apt-get install -y $packages
 #disable selinux to prevent a harmless error from showing up during the boot
 echo "SELINUX=disabled" >> /etc/selinux/config
 
-if [ ! $username ]; then
+if [ ! "$username" ]; then
   read -p "Enter the username for the user account: " username
 fi
-useradd -m -s /bin/bash -G sudo $username
+useradd -m -s /bin/bash -G sudo "$username"
 
 set_password() {
   local user="$1"
   local password="$2"
   if [ ! "$password" ]; then
-    while ! passwd $user; do
+    while ! passwd "$user"; do
       echo "Failed to set password for $user, please try again."
     done
   else
-    yes "$password" | passwd $user
+    yes "$password" | passwd "$user"
   fi
 }
 
@@ -138,7 +138,7 @@ if [ "$enable_root" ]; then
   echo "Enter a root password:"
   set_password root "$root_passwd"
 else
-  usermod -a -G sudo $username
+  usermod -a -G sudo "$username"
 fi
 
 echo "Enter a user password:"

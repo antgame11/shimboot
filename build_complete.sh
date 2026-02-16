@@ -27,7 +27,7 @@ assert_root
 assert_args "$1"
 parse_args "$@"
 
-base_dir="$(realpath -m  $(dirname "$0"))"
+base_dir="$(realpath -m "$(dirname "$0")")"
 board="$1"
 
 compress_img="${args['compress_img']}"
@@ -102,8 +102,8 @@ fi
 
 cleanup_path=""
 sigint_handler() {
-  if [ $cleanup_path ]; then
-    rm -rf $cleanup_path
+  if [ "$cleanup_path" ]; then
+    rm -rf "$cleanup_path"
   fi
   exit 1
 }
@@ -119,7 +119,7 @@ else
 fi
 
 print_title "downloading list of recovery images"
-reco_url="$(wget -qO- --show-progress $boards_url | python3 -c '
+reco_url="$(wget -qO- --show-progress "$boards_url" | python3 -c '
 import json, sys
 
 all_builds = json.load(sys.stdin)
@@ -137,12 +137,11 @@ if "models" in board:
 
 reco_url = list(board["pushRecoveries"].values())[-1]
 print(reco_url)
-' $board)"
+' "$board")"
 print_info "found url: $reco_url"
 
 shim_bin="$data_dir/shim_$board.bin"
 shim_zip="$data_dir/shim_$board.zip"
-shim_dir="$data_dir/shim_${board}_chunks"
 reco_bin="$data_dir/reco_$board.bin"
 reco_zip="$data_dir/reco_$board.zip"
 mkdir -p "$data_dir"
@@ -168,7 +167,7 @@ download_and_unzip() {
   local bin_path="$3"
   if [ ! -f "$bin_path" ]; then
     if [ ! "$quiet" ]; then
-      wget -q --show-progress $url -O "$zip_path" -c
+      wget -q --show-progress "$url" -O "$zip_path" -c
     else
       wget -q "$url" -O "$zip_path" -c
     fi
@@ -197,12 +196,12 @@ fi
 print_title "building $distro rootfs"
 if [ ! "$rootfs_dir" ]; then
   desktop_package="task-$desktop-desktop"
-  rootfs_dir="$(realpath -m data/rootfs_$board)"
+  rootfs_dir="$(realpath -m "data/rootfs_$board")"
   if [ "$(findmnt -T "$rootfs_dir/dev")" ]; then
-    sudo umount -l $rootfs_dir/* 2>/dev/null || true
+    sudo umount -l "$rootfs_dir"/* 2>/dev/null || true
   fi
-  rm -rf $rootfs_dir
-  mkdir -p $rootfs_dir
+  rm -rf "$rootfs_dir"
+  mkdir -p "$rootfs_dir"
 
   if [ "$distro" = "debian" ]; then
     release="${release:-trixie}"
@@ -227,22 +226,22 @@ if [ ! "$rootfs_dir" ]; then
     fi
   fi
 
-  ./build_rootfs.sh $rootfs_dir $release \
-    custom_packages=$desktop_package \
-    hostname=shimboot-$board \
+  ./build_rootfs.sh "$rootfs_dir" "$release" \
+    custom_packages="$desktop_package" \
+    hostname="shimboot-$board" \
     username=user \
     user_passwd=user \
-    arch=$arch \
-    distro=$distro
+    arch="$arch" \
+    distro="$distro"
 fi
 
 print_title "patching $distro rootfs"
-retry_cmd ./patch_rootfs.sh $shim_bin $reco_bin $rootfs_dir "quiet=$quiet"
+retry_cmd ./patch_rootfs.sh "$shim_bin" "$reco_bin" "$rootfs_dir" "quiet=$quiet"
 
 print_title "building final disk image"
 final_image="$data_dir/shimboot_$board.bin"
-rm -rf $final_image
-retry_cmd ./build.sh $final_image $shim_bin $rootfs_dir "quiet=$quiet" "arch=$arch" "name=$distro" "luks=$luks"
+rm -rf "$final_image"
+retry_cmd ./build.sh "$final_image" "$shim_bin" "$rootfs_dir" "quiet=$quiet" "arch=$arch" "name=$distro" "luks=$luks"
 print_info "build complete! the final disk image is located at $final_image"
 
 print_title "cleaning up"
@@ -251,7 +250,7 @@ clean_loops
 if [ "$compress_img" ]; then
   image_zip="$data_dir/shimboot_$board.zip"
   print_title "compressing disk image into a zip file"
-  zip -j $image_zip $final_image
+  zip -j "$image_zip" "$final_image"
   print_info "finished compressing the disk file"
   print_info "the finished zip file can be found at $image_zip" 
 fi

@@ -65,14 +65,14 @@ print_info "patching initramfs"
 patch_initramfs "$initramfs_dir"
 
 print_info "creating disk image"
-rootfs_size="$(du -sm $rootfs_dir | cut -f 1)"
-rootfs_part_size="$(($rootfs_size * 12 / 10 + 5))"
+rootfs_size="$(du -sm "$rootfs_dir" | cut -f 1)"
+rootfs_part_size="$((rootfs_size * 12 / 10 + 5))"
 #create a 20mb bootloader partition
 #rootfs partition is 20% larger than its contents
 create_image "$output_path" 20 "$rootfs_part_size" "$bootloader_part_name"
 
 print_info "creating loop device for the image"
-image_loop="$(create_loop ${output_path})"
+image_loop="$(create_loop "$output_path")"
 
 print_info "creating partitions on the disk image"
 create_partitions "$image_loop" "$kernel_img" "$luks_enabled" "$crypt_password"
