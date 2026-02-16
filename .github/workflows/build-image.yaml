@@ -9,9 +9,33 @@ jobs:
 
     strategy: 
       matrix:
-        board: [dedede, octopus, coral, grunt, nissa, zork, corsola, jacuzzi, hatch, snappy, hana, brya]
+        board: [dedede]
+        runner: [ubuntu-24.04]
+        include:
+          - board: octopus
+            runner: ubuntu-24.04
+          - board: coral
+            runner: ubuntu-24.04
+          - board: grunt
+            runner: ubuntu-24.04
+          - board: nissa
+            runner: ubuntu-24.04
+          - board: zork
+            runner: ubuntu-24.04
+          - board: hatch
+            runner: ubuntu-24.04
+          - board: snappy
+            runner: ubuntu-24.04
+          - board: brya
+            runner: ubuntu-24.04
+          - board: corsola
+            runner: ubuntu-24.04-arm
+          - board: jacuzzi
+            runner: ubuntu-24.04-arm
+          - board: hana
+            runner: ubuntu-24.04-arm
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runner }}
     steps:
       - name: Maximize build space
         uses: smallprogram/maximize-build-space@16007771e4642069097fc3e7444638474e5db178
