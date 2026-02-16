@@ -82,7 +82,7 @@ systemctl enable kill-frecon.service
 
 #install base packages
 if [ ! "$disable_base_pkgs" ]; then
-  apt-get install -y cloud-utils zram-tools sudo command-not-found bash-completion libfuse2 libfuse3-*
+  apt-get install -y cloud-utils zram-tools sudo command-not-found bash-completion libfuse2 libfuse3-* croskbd
 
   #set up zram
   echo "ALGO=lzo" >> /etc/default/zramswap
@@ -93,19 +93,6 @@ if [ ! "$disable_base_pkgs" ]; then
     apt-file update
   else #old versions of command-not-found did not use apt-file
     apt-get update
-  fi
-
-  #install keyd and the cros keyboard map if supported
-  if apt-cache show keyd 2>/dev/null; then
-    apt-get install -y keyd git python3-minimal python3-libfdt
-    git clone "https://github.com/WeirdTreeThing/cros-keyboard-map" /opt/cros-keyboard-map
-    
-    mkdir -p /etc/libinput/
-    cat /opt/cros-keyboard-map/local-overrides.quirks >> /etc/libinput/local-overrides.quirks
-    mkdir -p /etc/keyd
-    ln -s /tmp/keyd/cros.conf /etc/keyd/cros.conf
-
-    systemctl enable cros-kbmap.service keyd
   fi
 fi
 
