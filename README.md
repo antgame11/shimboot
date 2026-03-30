@@ -145,6 +145,7 @@ Note: If you are building for an ARM Chromebook, you need the `qemu-user-static`
 6. Expand the rootfs partition so that it fills up the entire disk by running `sudo expand_rootfs`.
 7. Change your own password by running `passwd user`. The root user is disabled by default.
 8. Set up locales by running `sudo dpkg-reconfigure locales`
+9. Change the timezone if needed by running `sudo dpkg-reconfigure tzdata`
 
 ## FAQ:
 
